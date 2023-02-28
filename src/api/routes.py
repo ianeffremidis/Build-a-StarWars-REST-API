@@ -23,6 +23,16 @@ def handle_hello():
 
     return jsonify(response_body), 200
 
+@api.route('/all_users', methods=['GET'])
+def all_users():
+
+    use = User.query.all()
+    use_list =  list(map(lambda x: x.serialize(), use))
+    response = jsonify(use_list)
+    
+    return response
+
+
 @api.route('/all_characters', methods=['GET'])
 def all_characters():
 
@@ -67,3 +77,25 @@ def specific_veh(position):
 
     veh = Vehicle.query.filter_by(id=position).first()
     return jsonify(veh.serialize())
+
+@api.route('/add_fav_char', methods=['POST'])
+def add_fav_char():
+
+    request_body = request.json
+    favourite_char = Fav_char(request_body["user_id"], request_body["char_id"])
+    db.session.add(favourite_char)
+    db.session.commit()
+
+    resp = "The character has been added to your favourites"
+    response = jsonify(resp)
+    
+    return response
+
+@api.route('/favtest', methods=['GET'])
+def fav_test():
+
+    fav = Fav_char.query.all()
+    fav_list =  list(map(lambda x: x.serialize(), fav))
+    response = jsonify(fav_list)
+    
+    return response

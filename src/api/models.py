@@ -137,7 +137,7 @@ class Vehicle(db.Model):
         self.image = image    
 
 class Fav_char(db.Model):
-    __tablename__ = 'fav_car'
+    __tablename__ = 'fav_char'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, ForeignKey('user.id'))
     char_id = db.Column(db.Integer, ForeignKey('character.id'))
@@ -152,7 +152,7 @@ class Fav_char(db.Model):
             "char_id":self.char_id,
         }
     def __init__(self, user_id, char_id):
-        self.user_id = name
+        self.user_id = user_id
         self.char_id = char_id
 
 class Fav_planet(db.Model):
