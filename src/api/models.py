@@ -38,11 +38,11 @@ class Character(db.Model):
     __tablename__ = 'character'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), unique=False, nullable=False)
-    birth_year = db.Column(db.String(100),  unique=False, nullable=False)
+    birth_year = db.Column(db.String(100), unique=False, nullable=False)
     gender = db.Column(db.String(100),  unique=False, nullable=False)
-    height = db.Column(db.String(100), unique=True, nullable=False)
-    skin_color = db.Column(db.String(100),  unique=True, nullable=False)
-    eye_color = db.Column(db.String(100),  unique=True, nullable=False)
+    height = db.Column(db.String(100), unique=False, nullable=False)
+    skin_color = db.Column(db.String(100),  unique=False, nullable=False)
+    eye_color = db.Column(db.String(100),  unique=False, nullable=False)
     image = db.Column(db.Text, unique=False, nullable=True)
 
     def __repr__(self):
@@ -71,12 +71,12 @@ class Character(db.Model):
 class Planet(db.Model):
     __tablename__ = 'planet'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), unique=False, nullable=False)
+    name = db.Column(db.String(100), unique=True, nullable=False)
     population = db.Column(db.String(100), unique=False, nullable=False)
-    rotation_period = db.Column(db.String(100), unique=True, nullable=False)
-    surface_water = db.Column(db.String(100), unique=True, nullable=False)
-    gravity = db.Column(db.String(100), unique=True, nullable=False)
-    climate = db.Column(db.String(100), unique=True, nullable=False)
+    rotation_period = db.Column(db.String(100), unique=False, nullable=False)
+    surface_water = db.Column(db.String(100), unique=False, nullable=False)
+    gravity = db.Column(db.String(100), unique=False, nullable=False)
+    climate = db.Column(db.String(100), unique=False, nullable=False)
     image = db.Column(db.Text, unique=False, nullable=True)
 
     def __repr__(self):
@@ -109,8 +109,8 @@ class Vehicle(db.Model):
     model = db.Column(db.String(100), unique=False, nullable=False)
     manufacturer = db.Column(db.String(100), unique=False, nullable=False)
     cost_in_credits = db.Column(db.Integer, unique=False, nullable=False)
-    crew = db.Column(db.Integer, unique=True, nullable=False)
-    passengers = db.Column(db.Integer, unique=True, nullable=False)
+    crew = db.Column(db.Integer, unique=False, nullable=False)
+    passengers = db.Column(db.Integer, unique=False, nullable=False)
     image = db.Column(db.Text, unique=False, nullable=True)
 
     def __repr__(self):
