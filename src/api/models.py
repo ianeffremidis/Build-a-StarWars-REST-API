@@ -171,7 +171,7 @@ class Fav_planet(db.Model):
             "planet_id":self.planet_id,
         }
     def __init__(self, user_id, planet_id):
-        self.user_id = name
+        self.user_id = user_id
         self.planet_id = planet_id
 
 class Fav_veh(db.Model):
@@ -190,6 +190,6 @@ class Fav_veh(db.Model):
             "veh_id":self.veh_id,
         }
     def __init__(self, user_id, veh_id):
-        self.user_id = name
+        self.user_id = user_id
         self.veh_id = veh_id
                    

@@ -91,11 +91,45 @@ def add_fav_char():
     
     return response
 
-@api.route('/favtest', methods=['GET'])
-def fav_test():
+@api.route('/add_fav_planet', methods=['POST'])
+def add_fav_planet():
 
-    fav = Fav_char.query.all()
-    fav_list =  list(map(lambda x: x.serialize(), fav))
-    response = jsonify(fav_list)
+    request_body = request.json
+    favourite_planet = Fav_planet(request_body["user_id"], request_body["planet_id"])
+    db.session.add(favourite_planet)
+    db.session.commit()
+
+    resp = "The planet has been added to your favourites"
+    response = jsonify(resp)
+    
+    return response
+
+@api.route('/add_fav_veh', methods=['POST'])
+def add_fav_veh():
+
+    request_body = request.json
+    favourite_veh = Fav_veh(request_body["user_id"], request_body["veh_id"])
+    db.session.add(favourite_veh)
+    db.session.commit()
+
+    resp = "The vehicle has been added to your favourites"
+    response = jsonify(resp)
+    
+    return response
+
+@api.route('/get_all_fav', methods=['GET'])
+def get_all_fav():
+
+    request_body = request.json
+    fav_veh = Fav_veh.query.filter_by(user_id=request_body["user_id"]).all()
+    fav_list_veh =  list(map(lambda x: x.serialize(), fav_veh))
+    favo_veh = Vehicle.query.filter_by(id=list(map(lambda x: x.veh_id, fav_list_veh))).all()
+
+    fav_char = Fav_char.query.filter_by(user_id=request_body["user_id"]).all()
+    fav_planet = Fav_planet.query.filter_by(user_id=request_body["user_id"]).all()
+    
+    fav_list_char = list(map(lambda x: x.serialize(), fav_char))
+    fav_list_planet = list(map(lambda x: x.serialize(), fav_planet))
+    response = jsonify(fav_list_veh, fav_list_char, fav_list_planet)
     
     return response
