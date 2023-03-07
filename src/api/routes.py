@@ -120,16 +120,15 @@ def add_fav_veh():
 @api.route('/get_all_fav', methods=['GET'])
 def get_all_fav():
 
-    request_body = request.json
-    fav_veh = Fav_veh.query.filter_by(user_id=request_body["user_id"]).all()
+    user = request.json.get("user_id", None)
+    fav_veh = Fav_veh.query.filter_by(user_id=user).all()
     fav_list_veh =  list(map(lambda x: x.serialize(), fav_veh))
-    favo_veh = Vehicle.query.filter_by(id=list(map(lambda x: x.veh_id, fav_list_veh))).all()
+    find_veh = list(map(lambda x: Vehicle.query.filter_by(id=x[veh_id]).all(), fav_list_veh))
+    
 
-    fav_char = Fav_char.query.filter_by(user_id=request_body["user_id"]).all()
-    fav_planet = Fav_planet.query.filter_by(user_id=request_body["user_id"]).all()
+    #fav_char = Fav_char.query.filter_by(user_id=request_body["user_id"]).all()
+   # fav_planet = Fav_planet.query.filter_by(user_id=request_body["user_id"]).all()
     
-    fav_list_char = list(map(lambda x: x.serialize(), fav_char))
-    fav_list_planet = list(map(lambda x: x.serialize(), fav_planet))
-    response = jsonify(fav_list_veh, fav_list_char, fav_list_planet)
-    
-    return response
+    ##fav_list_planet = list(map(lambda x: x.serialize(), fav_planet))
+
+    return find_veh
