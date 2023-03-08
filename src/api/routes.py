@@ -123,12 +123,25 @@ def get_all_fav():
     user = request.json.get("user_id", None)
     fav_veh = Fav_veh.query.filter_by(user_id=user).all()
     fav_list_veh =  list(map(lambda x: x.serialize(), fav_veh))
-    find_veh = list(map(lambda x: Vehicle.query.filter_by(id=x[veh_id]).all(), fav_list_veh))
+    find_veh = [Vehicle.query.filter_by(id=x["veh_id"]).first().serialize() for x in fav_list_veh]
     
+    fav_char = Fav_char.query.filter_by(user_id=user).all()
+    fav_list_char =  list(map(lambda x: x.serialize(), fav_char))
+    find_char = [Character.query.filter_by(id=x["char_id"]).first().serialize() for x in fav_list_char]
+
+    fav_planet = Fav_planet.query.filter_by(user_id=user).all()
+    fav_list_planet =  list(map(lambda x: x.serialize(), fav_planet))
+    find_planet = [Planet.query.filter_by(id=x["planet_id"]).first().serialize() for x in fav_list_planet]
+
+    print(find_char)
+    print(find_veh)
+    print(find_planet)
+    #print(fav_list_veh['veh_id'])
 
     #fav_char = Fav_char.query.filter_by(user_id=request_body["user_id"]).all()
    # fav_planet = Fav_planet.query.filter_by(user_id=request_body["user_id"]).all()
     
     ##fav_list_planet = list(map(lambda x: x.serialize(), fav_planet))
 
-    return find_veh
+    #return find_veh
+    return find_veh + find_char + find_planet
