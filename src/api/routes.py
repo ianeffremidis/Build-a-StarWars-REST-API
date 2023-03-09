@@ -136,12 +136,40 @@ def get_all_fav():
     print(find_char)
     print(find_veh)
     print(find_planet)
-    #print(fav_list_veh['veh_id'])
-
-    #fav_char = Fav_char.query.filter_by(user_id=request_body["user_id"]).all()
-   # fav_planet = Fav_planet.query.filter_by(user_id=request_body["user_id"]).all()
-    
-    ##fav_list_planet = list(map(lambda x: x.serialize(), fav_planet))
-
-    #return find_veh
     return find_veh + find_char + find_planet
+
+@api.route('/favorite/planet/<int:planet_id>', methods=['DELETE'])
+#@jwt_required()
+def delete_planet(planet_id):
+
+    if planet_id == None:
+        return "Can't find planet to delete", 404
+    planet= Fav_planet.query.filter_by(id=planet_id).first()
+    db.session.delete(planet)
+    db.session.commit()
+    
+    return jsonify({"planet": planet.serialize(),"message": "this planet was deleted"}), 200
+
+@api.route('/favorite/char/<int:char_id>', methods=['DELETE'])
+#@jwt_required()
+def delete_char(char_id):
+
+    if char_id == None:
+        return "Can't find character to delete", 404
+    char= Fav_char.query.filter_by(id=char_id).first()
+    db.session.delete(char)
+    db.session.commit()
+    
+    return jsonify({"character": char.serialize(),"message": "this character was deleted"}), 200
+
+@api.route('/favorite/veh/<int:veh_id>', methods=['DELETE'])
+#@jwt_required()
+def delete_veh(veh_id):
+
+    if veh_id == None:
+        return "Can't find vehicle to delete", 404
+    veh= Fav_veh.query.filter_by(id=veh_id).first()
+    db.session.delete(veh)
+    db.session.commit()
+    
+    return jsonify({"vehicle": veh.serialize(),"message": "this vehicle was deleted"}), 200
